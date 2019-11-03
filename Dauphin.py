@@ -28,7 +28,7 @@ class Dauphin:
         self.xmin, self.xmax = xlim[0], xlim[1]
         self.ymin, self.ymax = ylim[0], ylim[1]
 
-    def solve(self, N):
+    def solve(self, N=None):
         """
         Solve for N time steps
         """
