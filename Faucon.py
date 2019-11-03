@@ -11,16 +11,29 @@ class Faucon:
 
 
 	# Constructeur
-	def __init__(self, lionceau,dictHyene,course, vision,fourmi):
+	def __init__(self, lionceau, dictHyene, course, vision, fourmi):
 		self.nt = fourmi.nt
+		self.dq = fourmi.dq
+		self.dt = fourmi.dt
 		self.poulpe = Poulpe(vision)
 		self.dictHyene = dictHyene
 		self.dict_hyene_to_poulpe()
-		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force,lionceau.masse)
+		#self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force,lionceau.masse)
 		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq, vision.axes.get_xlim(), vision.axes.get_ylim())
 
-	def run_simulation(self):
-		self.dauphin.solve(self.nt.get())
+	def run_simulation(self, pos0, vit0, m0):
+                
+                
+                panda = Panda(pos0, vit0, m0)
+
+		xlim = np.array([-100,100])
+		ylim = np.array([-100,100])
+
+		dauphin = Dauphin(panda, self.poulpe, dt, dq, xlim, ylim)
+
+		sol = dauphin.solve(self.nt)
+
+		return sol
 
 
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe

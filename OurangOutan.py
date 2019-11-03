@@ -178,6 +178,7 @@ class Fourmi(ttk.LabelFrame):
             for j in range(2):
                 self.grid_rowconfigure(j, weight=1)
 
+
 class Hyene(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent)
