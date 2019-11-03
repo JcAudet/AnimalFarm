@@ -1,6 +1,6 @@
 import numpy as np
 from Panda import Panda
-from Poulpe2 import Poulpe
+from Poulpe import Poulpe
 
 from numpy.linalg import norm
 
