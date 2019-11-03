@@ -17,6 +17,8 @@ class Dauphin:
         dt : discretisation en temps
         dq : discretisation de l'espace
         xlim, ylim : np.array([min,max])
+    Returns :
+        positions, velocities : np.array([N][x,y])
     """
     def __init__(self, panda, poulpe, dt, dq, xlim, ylim):
         self.panda = panda
@@ -30,14 +32,25 @@ class Dauphin:
         """
         Solve for N time steps
         """
-        # n=1 step -------------------------------------------------
-        # Calculate next position (and velocity - TO DO)
-        pos1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+        positions = np.zeros([N,2])
+        velocities = np.zeros([N,2])
+        n=0
+        positions[n,:] = self.panda.pos0
+        velocities[n,:] = self.panda.vit0
+        # tn=1 step -------------------------------------------------
+        n=1
+        pos1, vit1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+        positions[n,:] = pos1
+        velocities[n,:] = vit1
         # n>1 steps ------------------------------------------------
         if N > 1:
             for n in range(N-1):
-                # Calculate next position (and velocity - TO DO)
-                posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+                n +=1
+                posNplus1, vitNplus1 = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+                positions[n,:] = posNplus1
+                velocities[n,:] = vitNplus1
+
+        return positions, velocities
 
 
 def puck_outside(posNplus1, xmin, xmax, ymin, ymax):
@@ -93,7 +106,7 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     # outside ?
     # if puck_outside(pos1, xmin, xmax, ymin, ymax):
     #     pass
-    return panda.pos
+    return panda.pos, panda.vit
 
 def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     """ Step n>1 of Verlet integration
@@ -121,4 +134,4 @@ def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     # outside ?
     # if puck_outside(posNplus1, xmin, xmax, ymin, ymax):
     #     pass
-    return panda.pos
+    return panda.pos, panda.vit
