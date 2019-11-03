@@ -80,6 +80,7 @@ plt.loglog(dts, np.exp(f(dts, poptV[0], poptV[1])))
 plt.loglog(dts, errsdt, 'o')
 plt.loglog(dts, errsvit, 'x')
 plt.show()
+
 plt.figure()
 plt.title('Trajectoire (Analyse spatiale)')
 plt.xlabel('x')
